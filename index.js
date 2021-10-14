@@ -3,9 +3,11 @@ const app = express();
 app.use(express.json());
 
 const {todos, categories} = require('./data/data');
+
 const getMaxId = require('./functions/getMaxId');
 const getStatistics = require('./functions/getStatistics');
 const validation = require('./validation/validation');
+const {log} = require("nodemon/lib/utils");
 
 const PORT = 4000;
 
@@ -14,9 +16,9 @@ let maxId = getMaxId(todos);
 app.get('/notes/stats', (req, res) => {
   try {
     const result = getStatistics(todos, categories);
-    res.status(200).json(result).end()
+    res.status(200).json(result)
   } catch (e) {
-    res.status(500).send('Server error').end();
+    res.status(500).send('Server error');
   }
 })
 
@@ -24,20 +26,20 @@ app.get('/notes/:id', validation(['id']), (req, res) => {
   try {
     const out = todos.filter(item => item.id === req.params.id)[0]
     out
-      ? res.status(200).json(out).end()
-      : res.status(404).send('Data not found').end();
+      ? res.status(200).json(out)
+      : res.status(404).send('Data not found');
   } catch (e) {
-    res.status(500).send('Server error').end();
+    res.status(500).send('Server error');
   }
 })
 
 app.get('/notes', (req, res) => {
   try {
     todos.length
-      ? res.status(200).json(todos).end()
-      : res.status(200).json([]).end()
+      ? res.status(200).json(todos)
+      : res.status(200).json([])
   } catch (e) {
-    res.status(500).send('Server error').end();
+    res.status(500).send('Server error');
   }
 })
 
@@ -49,9 +51,9 @@ app.post('/notes', validation(['body']), (req, res) => {
     newTodo.active = true;
     newTodo.created = Date.now();
     todos.push(newTodo);
-    res.status(200).json(todos).end();
+    res.status(200).json(todos);
   } catch (e) {
-    res.status(500).send('Server error').end();
+    res.status(500).send('Server error');
   }
 })
 
@@ -66,10 +68,10 @@ app.delete('/notes/:id', validation(['id']), (req, res) => {
       }
     }
     isDelete
-      ? res.status(200).json(todos).end()
-      : res.status(404).send('Data not found').end();
+      ? res.status(200).json(todos)
+      : res.status(404).send('Data not found');
   } catch (e) {
-    res.status(500).send('Server error').end();
+    res.status(500).send('Server error');
   }
 })
 
@@ -84,14 +86,20 @@ app.patch('/notes/:id', validation(['id', 'body']), (req, res) => {
       }
     }
     isPatch
-      ? res.status(200).json(todos).end()
-      : res.status(404).send('Data not found').end();
+      ? res.status(200).json(todos)
+      : res.status(404).send('Data not found');
   } catch (e) {
-    res.status(500).send('Server error').end();
+    res.status(500).send('Server error');
   }
 })
 
+app.use((req, res) => {
+  res.status(404).send('Invalid url');
+})
 
-app.listen(PORT, () =>
-  console.log('Server start on port: ', PORT, `link: http://localhost:${PORT}/`)
+app.listen(PORT, (error) => {
+    error
+      ? console.log(error.message)
+      : console.log('Server start on port: ', PORT, `link: http://localhost:${PORT}/`);
+  }
 );
