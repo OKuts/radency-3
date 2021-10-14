@@ -1,9 +1,7 @@
 const yup = require('yup');
 
-const idSchema =yup.object().shape({
+const idValidationSchema = yup.object().shape({
   id: yup.number().required().positive().integer()
 })
 
-
-
-module.exports = idSchema;
+module.exports = idValidationSchema;
