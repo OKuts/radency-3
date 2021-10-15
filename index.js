@@ -1,19 +1,20 @@
-const express = require('express')
+const express = require('express');
+
 const app = express();
 app.use(express.json());
+app.use(express.static('public'));
 
 const {todos, categories} = require('./data/data');
 
 const getMaxId = require('./functions/getMaxId');
 const getStatistics = require('./functions/getStatistics');
 const validation = require('./validation/validation');
-const {log} = require("nodemon/lib/utils");
 
 const PORT = 4000;
 
 let maxId = getMaxId(todos);
 
-app.get('/notes/stats', (req, res) => {
+app.get('/s', (req, res) => {
   try {
     const result = getStatistics(todos, categories);
     res.status(200).json(result)
@@ -93,8 +94,16 @@ app.patch('/notes/:id', validation(['id', 'body']), (req, res) => {
   }
 })
 
+app.use('/', (req, res) => {
+  try {
+    res.status(200).sendFile('/index.html');
+  } catch (e) {
+    res.status(500).send('Server error');
+  }
+})
+
 app.use((req, res) => {
-  res.status(404).send('Invalid url');
+  res.status(404).send('Invalid url ...');
 })
 
 app.listen(PORT, (error) => {

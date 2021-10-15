@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Use</h1>
+    <table>
+        <tr>
+            <th>Query type </th>
+            <th>Endpoint</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td>/notes</td>
+            <td>Create a note object.</td>
+        </tr>
+        <tr>
+            <td>DELETE</td>
+            <td>/notes/:id</td>
+            <td>Remove item.</td>
+        </tr>
+        <tr>
+            <td>PATCH</td>
+            <td>/notes/:id</td>
+            <td>Edit item.</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/notes/:id</td>
+            <td>Retrieve item.</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/notes</td>
+            <td>Get all notes.</td>
+        </tr>        <tr>
+            <td>GET</td>
+            <td>/s</td>
+            <td>Get aggregated data statistics. You don’t have to mock this data. You need to calculate it based on notes objects you have.</td>
+        </tr>
+    </table>
+</body>
+</html>
